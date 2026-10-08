@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ | Kōwhai Health Online GP</title>
+  <meta name="description" content="Answers to common questions about online GP appointments, prescriptions, fees and privacy.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-page="faq">
+  <div data-include="header"></div>
+
+  <main id="main">
+    <header class="page-head">
+      <div class="wrap">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a> / <span aria-current="page">FAQ</span></nav>
+        <h1>Frequently asked questions</h1>
+        <p class="lede">Quick answers about appointments, prescriptions, fees and how we look after your information.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="wrap faq-layout">
+        <aside class="faq-side" aria-label="FAQ topics">
+          <ul id="faq-topics"></ul>
+        </aside>
+
+        <div>
+          <div class="field faq-search">
+            <label for="faq-q">Search questions</label>
+            <input type="search" id="faq-q" placeholder="For example: prescription, refund, video" autocomplete="off">
+          </div>
+          <p class="faq-count" id="faq-count" aria-live="polite"></p>
+          <div id="faq-list"></div>
+
+          <div class="help-box">
+            <div>
+              <h3>Still have a question?</h3>
+              <p>Our support team replies within 2 hours, 7am to 10pm.</p>
+            </div>
+            <a class="btn" href="mailto:help@kowhaihealth.example">Email support</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div data-include="footer"></div>
+  <script src="js/main.js"></script>
+  <script src="js/faq.js"></script>
+</body>
+</html>
