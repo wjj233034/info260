@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en" style="color-scheme: light dark;">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Appointment V1</title>
+</head>
+<body style="margin:0; background:light-dark(#eaf1f3,#0b1418);">
+<div id="my-appointment-v1" class="viz-dotted-background">
+  <style>
+    #my-appointment-v1 {
+      padding: 20px;
+      color: light-dark(#19313a, #e8f2f4);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    #my-appointment-v1 * { box-sizing: border-box; }
+    #my-appointment-v1 .app-shell {
+      overflow: hidden;
+      background: light-dark(#f6fafb, #101b20);
+      border: 1px solid light-dark(#cbdadd, #31464d);
+      border-radius: 18px;
+      box-shadow: 0 18px 50px light-dark(rgba(29, 68, 77, .14), rgba(0, 0, 0, .34));
+    }
+    #my-appointment-v1 .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 22px;
+      background: light-dark(#ffffff, #16262c);
+      border-bottom: 1px solid light-dark(#d8e5e7, #31464d);
+    }
+    #my-appointment-v1 .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: light-dark(#123f49, #e9fafb);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    #my-appointment-v1 .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: light-dark(#0f7b83, #50c3c8);
+      color: light-dark(#ffffff, #082126);
+    }
+    #my-appointment-v1 .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: light-dark(#4b646b, #b7c9cd);
+    }
+    #my-appointment-v1 .nav-links span.active {
+      color: light-dark(#0b6972, #75d8dd);
+      font-weight: 600;
+    }
+    #my-appointment-v1 .account {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    #my-appointment-v1 main { padding: 28px; }
+    #my-appointment-v1 .page-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+    #my-appointment-v1 h1,
+    #my-appointment-v1 h2,
+    #my-appointment-v1 h3,
+    #my-appointment-v1 p { margin: 0; }
+    #my-appointment-v1 h1 { font-size: 28px; line-height: 1.2; }
+    #my-appointment-v1 .subtitle {
+      margin-top: 7px;
+      color: light-dark(#60777d, #9fb4b9);
+      font-size: 14px;
+    }
+    #my-appointment-v1 button,
+    #my-appointment-v1 select,
+    #my-appointment-v1 input { font: inherit; }
+    #my-appointment-v1 button {
+      min-height: 40px;
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid light-dark(#b9cdd1, #3d555c);
+      background: light-dark(#ffffff, #1a2c32);
+      color: light-dark(#18343c, #e7f1f3);
+      cursor: pointer;
+    }
+    #my-appointment-v1 button:hover { filter: brightness(.97); }
+    #my-appointment-v1 button:focus-visible,
+    #my-appointment-v1 select:focus-visible,
+    #my-appointment-v1 input:focus-visible {
+      outline: 3px solid light-dark(rgba(15,123,131,.24), rgba(80,195,200,.34));
+      outline-offset: 2px;
+    }
+    #my-appointment-v1 button.primary {
+      border-color: light-dark(#0f7b83, #50c3c8);
+      background: light-dark(#0f7b83, #50c3c8);
+      color: light-dark(#ffffff, #082126);
+      font-weight: 600;
+    }
+    #my-appointment-v1 button.danger {
+      border-color: light-dark(#d4a3a3, #825151);
+      color: light-dark(#a62f2f, #ffb6b6);
+    }
+    #my-appointment-v1 button:disabled {
+      opacity: .48;
+      cursor: not-allowed;
+    }
+    #my-appointment-v1 .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(250px, .75fr);
+      gap: 18px;
+      align-items: start;
+    }
+    #my-appointment-v1 .surface {
+      background: light-dark(#ffffff, #16262c);
+      border: 1px solid light-dark(#d4e2e4, #31464d);
+      border-radius: 15px;
+    }
+    #my-appointment-v1 .appointment-card { padding: 22px; }
+    #my-appointment-v1 .eyebrow {
+      color: light-dark(#0f737b, #75d8dd);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    #my-appointment-v1 .appointment-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 10px;
+    }
+    #my-appointment-v1 .doctor {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    #my-appointment-v1 .doctor-avatar {
+      display: grid;
+      place-items: center;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: light-dark(#e4f3f4, #234048);
+      color: light-dark(#0f7179, #80dce0);
+    }
+    #my-appointment-v1 .doctor-name { font-weight: 700; }
+    #my-appointment-v1 .doctor-meta {
+      margin-top: 3px;
+      color: light-dark(#60777d, #9fb4b9);
+      font-size: 13px;
+    }
+    #my-appointment-v1 .status {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: light-dark(#e6f6ee, #17392c);
+      color: light-dark(#1d7450, #8ce1b5);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    #my-appointment-v1 .status.cancelled {
+      background: light-dark(#fbeaea, #402323);
+      color: light-dark(#a43c3c, #ffb6b6);
+    }
+    #my-appointment-v1 .details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0;
+    }
+    #my-appointment-v1 .detail {
+      padding: 13px;
+      border-radius: 11px;
+      background: light-dark(#f2f7f8, #102027);
+    }
+    #my-appointment-v1 .detail-label {
+      color: light-dark(#61787e, #9fb4b9);
+      font-size: 12px;
+    }
+    #my-appointment-v1 .detail-value {
+      margin-top: 5px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    #my-appointment-v1 .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    #my-appointment-v1 .actions .primary { min-width: 148px; }
+    #my-appointment-v1 .feedback {
+      min-height: 20px;
+      margin-top: 14px;
+      color: light-dark(#24646b, #8ddfe3);
+      font-size: 13px;
+    }
+    #my-appointment-v1 .reschedule-panel {
+      display: none;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid light-dark(#dbe6e8, #31464d);
+    }
+    #my-appointment-v1 .reschedule-panel.open { display: block; }
+    #my-appointment-v1 .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      align-items: end;
+      margin-top: 12px;
+    }
+    #my-appointment-v1 label {
+      display: grid;
+      gap: 6px;
+      color: light-dark(#536d73, #adc0c4);
+      font-size: 12px;
+    }
+    #my-appointment-v1 select,
+    #my-appointment-v1 input {
+      width: 100%;
+      min-height: 40px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      border: 1px solid light-dark(#bacdd1, #40575e);
+      background: light-dark(#ffffff, #102027);
+      color: light-dark(#17333b, #e7f1f3);
+    }
+    #my-appointment-v1 .sidebar { display: grid; gap: 18px; }
+    #my-appointment-v1 .side-section { padding: 18px; }
+    #my-appointment-v1 .side-section h2 { font-size: 17px; }
+    #my-appointment-v1 .check-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 15px;
+    }
+    #my-appointment-v1 .check-item {
+      display: flex;
+      gap: 9px;
+      align-items: start;
+      color: light-dark(#4d676d, #b4c6ca);
+      font-size: 13px;
+    }
+    #my-appointment-v1 .check-dot {
+      display: grid;
+      place-items: center;
+      flex: 0 0 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: light-dark(#e4f3f4, #234048);
+      color: light-dark(#0f7179, #80dce0);
+    }
+    #my-appointment-v1 .past-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid light-dark(#dbe6e8, #31464d);
+    }
+    #my-appointment-v1 .past-main { font-size: 13px; font-weight: 600; }
+    #my-appointment-v1 .past-meta {
+      margin-top: 4px;
+      color: light-dark(#677e84, #9fb4b9);
+      font-size: 12px;
+    }
+    #my-appointment-v1 .past-status {
+      color: light-dark(#42705d, #96d4b7);
+      font-size: 12px;
+    }
+    #my-appointment-v1 .modal-backdrop {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(5, 18, 22, .58);
+      border-radius: 18px;
+    }
+    #my-appointment-v1 .modal-backdrop.open { display: flex; }
+    #my-appointment-v1 .app-shell { position: relative; }
+    #my-appointment-v1 .modal {
+      width: min(420px, 100%);
+      padding: 22px;
+      border-radius: 15px;
+      background: light-dark(#ffffff, #16262c);
+      color: light-dark(#19313a, #e8f2f4);
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+    }
+    #my-appointment-v1 .modal p {
+      margin-top: 9px;
+      color: light-dark(#60777d, #a9bdc1);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    #my-appointment-v1 .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    @media (max-width: 780px) {
+      #my-appointment-v1 { padding: 10px; }
+      #my-appointment-v1 .topbar { align-items: flex-start; flex-wrap: wrap; }
+      #my-appointment-v1 .nav-links { order: 3; width: 100%; justify-content: flex-start; }
+      #my-appointment-v1 main { padding: 20px; }
+      #my-appointment-v1 .layout { grid-template-columns: 1fr; }
+      #my-appointment-v1 .page-heading { align-items: flex-start; flex-direction: column; }
+      #my-appointment-v1 .details { grid-template-columns: 1fr; }
+      #my-appointment-v1 .fields { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <section class="app-shell" aria-label="My Appointments prototype">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>Online GP</div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <span>Home</span><span>Services</span><span>Find GP</span><span>How It Works</span><span>FAQ</span><span>Contact Us</span>
+      </nav>
+      <div class="account"><span class="active">My Account</span></div>
+    </header>
+
+    <main>
+      <div class="page-heading">
+        <div>
+          <h1>My Appointment</h1>
+          <p class="subtitle">View and manage your upcoming GP consultations.</p>
+        </div>
+        <button class="primary" id="book-new" type="button"> Book New Appointment</button>
+      </div>
+
+      <div class="layout">
+        <section class="surface appointment-card" aria-labelledby="upcoming-title">
+          <div class="eyebrow">Upcoming appointment</div>
+          <div class="appointment-head">
+            <div class="doctor">
+              <span class="doctor-avatar"></span>
+              <div>
+                <h2 id="upcoming-title" class="doctor-name">Dr Sarah Thompson</h2>
+                <p class="doctor-meta">NZ-registered General Practitioner · Registration verified</p>
+              </div>
+            </div>
+            <span class="status" id="appointment-status">Confirmed</span>
+          </div>
+
+          <div class="details">
+            <div class="detail"><div class="detail-label">Date</div><div class="detail-value" id="appointment-date">15 October 2026</div></div>
+            <div class="detail"><div class="detail-label">Time</div><div class="detail-value" id="appointment-time">10:30 AM</div></div>
+            <div class="detail"><div class="detail-label">Consultation type</div><div class="detail-value">Video consultation</div></div>
+            <div class="detail"><div class="detail-label">Consultation fee</div><div class="detail-value">NZ$45.00</div></div>
+          </div>
+
+          <div class="actions">
+            <button class="primary" id="join-call" type="button"> Join Consultation</button>
+            <button id="reschedule" type="button"> Reschedule</button>
+            <button class="danger" id="cancel" type="button"> Cancel Appointment</button>
+          </div>
+          <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+
+          <div class="reschedule-panel" id="reschedule-panel">
+            <h3>Choose a new appointment time</h3>
+            <div class="fields">
+              <label>Date
+                <input id="new-date" type="date" value="2026-10-16" min="2026-10-07">
+              </label>
+              <label>Available time
+                <select id="new-time">
+                  <option>9:00 AM</option>
+                  <option selected>11:30 AM</option>
+                  <option>2:00 PM</option>
+                  <option>4:15 PM</option>
+                </select>
+              </label>
+              <button class="primary" id="confirm-reschedule" type="button">Confirm</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="surface side-section" aria-labelledby="prepare-title">
+            <h2 id="prepare-title">Before your appointment</h2>
+            <div class="check-list">
+              <div class="check-item"><span class="check-dot"></span><span>Check that your camera and microphone are working.</span></div>
+              <div class="check-item"><span class="check-dot"></span><span>Prepare any relevant health information or medication details.</span></div>
+              <div class="check-item"><span class="check-dot"></span><span>Join the consultation five minutes early.</span></div>
+            </div>
+          </section>
+
+          <section class="surface side-section" aria-labelledby="past-title">
+            <h2 id="past-title">Past appointments</h2>
+            <div class="past-row">
+              <div><div class="past-main">Dr Michael Lee</div><div class="past-meta">22 September 2026 · General consultation</div></div>
+              <span class="past-status">Completed</span>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <div class="modal-backdrop" id="cancel-modal" role="dialog" aria-modal="true" aria-labelledby="cancel-title">
+      <div class="modal">
+        <h2 id="cancel-title">Cancel this appointment?</h2>
+        <p>This will cancel your consultation with Dr Sarah Thompson on <span id="modal-date">15 October 2026</span>. This action is represented as a prototype only.</p>
+        <div class="modal-actions">
+          <button id="keep-appointment" type="button">Keep Appointment</button>
+          <button class="danger" id="confirm-cancel" type="button">Confirm Cancellation</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.getElementById('my-appointment-v1');
+      const feedback = root.querySelector('#feedback');
+      const panel = root.querySelector('#reschedule-panel');
+      const modal = root.querySelector('#cancel-modal');
+      const status = root.querySelector('#appointment-status');
+      const dateText = root.querySelector('#appointment-date');
+      const timeText = root.querySelector('#appointment-time');
+      const actionButtons = ['#join-call', '#reschedule', '#cancel'].map(id => root.querySelector(id));
+
+      root.querySelector('#book-new').addEventListener('click', () => {
+        feedback.textContent = 'The Book Appointment flow would open from here.';
+      });
+      root.querySelector('#join-call').addEventListener('click', () => {
+        feedback.textContent = 'The consultation room becomes available five minutes before the appointment.';
+      });
+      root.querySelector('#reschedule').addEventListener('click', () => {
+        panel.classList.toggle('open');
+        feedback.textContent = panel.classList.contains('open') ? 'Select a new available date and time.' : '';
+      });
+      root.querySelector('#confirm-reschedule').addEventListener('click', () => {
+        const dateValue = root.querySelector('#new-date').value;
+        const timeValue = root.querySelector('#new-time').value;
+        if (!dateValue) {
+          feedback.textContent = 'Please choose a date.';
+          return;
+        }
+        const formatted = new Intl.DateTimeFormat('en-NZ', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(dateValue + 'T12:00:00'));
+        dateText.textContent = formatted;
+        timeText.textContent = timeValue;
+        root.querySelector('#modal-date').textContent = formatted;
+        panel.classList.remove('open');
+        feedback.textContent = `Appointment rescheduled to ${formatted} at ${timeValue}.`;
+      });
+      root.querySelector('#cancel').addEventListener('click', () => {
+        modal.classList.add('open');
+        root.querySelector('#keep-appointment').focus();
+      });
+      root.querySelector('#keep-appointment').addEventListener('click', () => {
+        modal.classList.remove('open');
+        root.querySelector('#cancel').focus();
+      });
+      root.querySelector('#confirm-cancel').addEventListener('click', () => {
+        modal.classList.remove('open');
+        status.textContent = 'Cancelled';
+        status.classList.add('cancelled');
+        actionButtons.forEach(button => button.disabled = true);
+        panel.classList.remove('open');
+        feedback.textContent = 'Appointment cancelled. You can book a new appointment at any time.';
+      });
+    })();
+  </script>
+</div>
+
+</body>
+</html>

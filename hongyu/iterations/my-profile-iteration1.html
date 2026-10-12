@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en" style="color-scheme: light dark;">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Profile — Iteration 1</title>
+</head>
+<body style="margin:0; background:light-dark(#eaf1f3,#0b1418);">
+<div id="my-profile-v1" class="viz-dotted-background">
+  <style>
+    #my-profile-v1 {
+      padding: 20px;
+      color: light-dark(#19313a, #e8f2f4);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    #my-profile-v1 * { box-sizing: border-box; }
+    #my-profile-v1 .app-shell {
+      overflow: hidden;
+      background: light-dark(#f6fafb, #101b20);
+      border: 1px solid light-dark(#cbdadd, #31464d);
+      border-radius: 18px;
+      box-shadow: 0 18px 50px light-dark(rgba(29,68,77,.14), rgba(0,0,0,.34));
+    }
+    #my-profile-v1 .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 22px;
+      background: light-dark(#ffffff, #16262c);
+      border-bottom: 1px solid light-dark(#d8e5e7, #31464d);
+    }
+    #my-profile-v1 .brand,
+    #my-profile-v1 .account,
+    #my-profile-v1 .section-title,
+    #my-profile-v1 .profile-summary { display: flex; align-items: center; }
+    #my-profile-v1 .brand { gap: 10px; color: light-dark(#123f49, #e9fafb); font-weight: 700; white-space: nowrap; }
+    #my-profile-v1 .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: light-dark(#0f7b83, #50c3c8);
+      color: light-dark(#ffffff, #082126);
+    }
+    #my-profile-v1 .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      color: light-dark(#4b646b, #b7c9cd);
+      font-size: 13px;
+    }
+    #my-profile-v1 .nav-links span.active { color: light-dark(#0b6972, #75d8dd); font-weight: 600; }
+    #my-profile-v1 .account { gap: 8px; font-size: 13px; white-space: nowrap; }
+    #my-profile-v1 main { padding: 28px; }
+    #my-profile-v1 h1,
+    #my-profile-v1 h2,
+    #my-profile-v1 h3,
+    #my-profile-v1 p { margin: 0; }
+    #my-profile-v1 h1 { font-size: 28px; line-height: 1.2; }
+    #my-profile-v1 .subtitle { margin-top: 7px; color: light-dark(#60777d, #9fb4b9); font-size: 14px; }
+    #my-profile-v1 .page-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+    #my-profile-v1 button,
+    #my-profile-v1 input,
+    #my-profile-v1 select { font: inherit; }
+    #my-profile-v1 button {
+      min-height: 40px;
+      padding: 9px 14px;
+      border-radius: 10px;
+      border: 1px solid light-dark(#b9cdd1, #3d555c);
+      background: light-dark(#ffffff, #1a2c32);
+      color: light-dark(#18343c, #e7f1f3);
+      cursor: pointer;
+    }
+    #my-profile-v1 button.primary {
+      border-color: light-dark(#0f7b83, #50c3c8);
+      background: light-dark(#0f7b83, #50c3c8);
+      color: light-dark(#ffffff, #082126);
+      font-weight: 600;
+    }
+    #my-profile-v1 button.ghost { background: transparent; }
+    #my-profile-v1 .edit-button {
+      min-height: 42px;
+      padding-inline: 15px;
+      font-weight: 700;
+    }
+    #my-profile-v1 button:hover { filter: brightness(.97); }
+    #my-profile-v1 button:focus-visible,
+    #my-profile-v1 input:focus-visible,
+    #my-profile-v1 select:focus-visible {
+      outline: 3px solid light-dark(rgba(15,123,131,.24), rgba(80,195,200,.34));
+      outline-offset: 2px;
+    }
+    #my-profile-v1 .layout {
+      display: grid;
+      grid-template-columns: minmax(220px, .65fr) minmax(0, 1.7fr);
+      gap: 18px;
+      align-items: start;
+    }
+    #my-profile-v1 .surface {
+      background: light-dark(#ffffff, #16262c);
+      border: 1px solid light-dark(#d4e2e4, #31464d);
+      border-radius: 15px;
+    }
+    #my-profile-v1 .profile-card { padding: 22px; }
+    #my-profile-v1 .profile-summary { flex-direction: column; text-align: center; }
+    #my-profile-v1 .avatar {
+      display: grid;
+      place-items: center;
+      width: 78px;
+      height: 78px;
+      border-radius: 24px;
+      background: light-dark(#e4f3f4, #234048);
+      color: light-dark(#0f7179, #80dce0);
+    }
+    #my-profile-v1 .profile-name { margin-top: 14px; font-size: 20px; font-weight: 700; }
+    #my-profile-v1 .profile-meta { margin-top: 5px; color: light-dark(#60777d, #9fb4b9); font-size: 13px; }
+    #my-profile-v1 .status {
+      margin-top: 13px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: light-dark(#e6f6ee, #17392c);
+      color: light-dark(#1d7450, #8ce1b5);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    #my-profile-v1 .side-nav { display: grid; gap: 7px; margin-top: 22px; }
+    #my-profile-v1 .side-nav div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 11px;
+      border-radius: 10px;
+      color: light-dark(#536d73, #adc0c4);
+      font-size: 13px;
+    }
+    #my-profile-v1 .side-nav div.active { background: light-dark(#e8f4f5, #213940); color: light-dark(#0b6972, #75d8dd); font-weight: 600; }
+    #my-profile-v1 .content { display: grid; gap: 18px; }
+    #my-profile-v1 .section { padding: 20px; }
+    #my-profile-v1 .section-title { justify-content: space-between; gap: 16px; }
+    #my-profile-v1 .section-title h2 { font-size: 17px; }
+    #my-profile-v1 .section-description { margin-top: 5px; color: light-dark(#657b81, #9fb4b9); font-size: 13px; }
+    #my-profile-v1 .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 15px 18px;
+      margin-top: 18px;
+    }
+    #my-profile-v1 .field { min-width: 0; }
+    #my-profile-v1 .field-label { color: light-dark(#687e84, #9fb4b9); font-size: 12px; }
+    #my-profile-v1 .field-value { margin-top: 5px; min-height: 23px; font-size: 14px; font-weight: 600; overflow-wrap: anywhere; }
+    #my-profile-v1 .field input,
+    #my-profile-v1 .field select {
+      display: none;
+      width: 100%;
+      min-height: 40px;
+      margin-top: 6px;
+      padding: 8px 10px;
+      border-radius: 9px;
+      border: 1px solid light-dark(#bacdd1, #40575e);
+      background: light-dark(#ffffff, #102027);
+      color: light-dark(#17333b, #e7f1f3);
+    }
+    #my-profile-v1 .editing .field-value { display: none; }
+    #my-profile-v1 .editing .field input,
+    #my-profile-v1 .editing .field select { display: block; }
+    #my-profile-v1 .editing .edit-button { display: none; }
+    #my-profile-v1 .edit-actions { display: none; gap: 9px; }
+    #my-profile-v1 .editing .edit-actions { display: flex; }
+    #my-profile-v1 .preferences { display: grid; gap: 12px; margin-top: 17px; }
+    #my-profile-v1 .preference-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid light-dark(#dbe6e8, #31464d);
+    }
+    #my-profile-v1 .preference-row:first-child { border-top: 0; padding-top: 0; }
+    #my-profile-v1 .preference-title { font-size: 14px; font-weight: 600; }
+    #my-profile-v1 .preference-meta { margin-top: 4px; color: light-dark(#667c82, #9fb4b9); font-size: 12px; }
+    #my-profile-v1 .switch {
+      position: relative;
+      width: 46px;
+      height: 26px;
+      flex: 0 0 auto;
+    }
+    #my-profile-v1 .switch input { position: absolute; opacity: 0; }
+    #my-profile-v1 .switch span {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: light-dark(#b8c9cd, #40545a);
+      transition: .2s ease;
+    }
+    #my-profile-v1 .switch span::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,.25);
+      transition: .2s ease;
+    }
+    #my-profile-v1 .switch input:checked + span { background: light-dark(#0f7b83, #50c3c8); }
+    #my-profile-v1 .switch input:checked + span::after { transform: translateX(20px); }
+    #my-profile-v1 .feedback { min-height: 20px; margin-top: 12px; color: light-dark(#24646b, #8ddfe3); font-size: 13px; }
+    #my-profile-v1 .error { color: light-dark(#ac3434, #ffb6b6); }
+    @media (max-width: 780px) {
+      #my-profile-v1 { padding: 10px; }
+      #my-profile-v1 .topbar { align-items: flex-start; flex-wrap: wrap; }
+      #my-profile-v1 .nav-links { order: 3; width: 100%; justify-content: flex-start; }
+      #my-profile-v1 main { padding: 20px; }
+      #my-profile-v1 .page-heading { align-items: flex-start; flex-direction: column; }
+      #my-profile-v1 .layout { grid-template-columns: 1fr; }
+      #my-profile-v1 .profile-summary { flex-direction: row; text-align: left; gap: 15px; }
+      #my-profile-v1 .profile-name { margin-top: 0; }
+      #my-profile-v1 .status { display: inline-block; }
+      #my-profile-v1 .info-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <section class="app-shell" aria-label="My Profile prototype">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark"></span>Online GP</div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <span>Home</span><span>Services</span><span>Find GP</span><span>How It Works</span><span>FAQ</span><span>Contact Us</span>
+      </nav>
+      <div class="account"><span class="active">My Account</span></div>
+    </header>
+
+    <main>
+      <div class="page-heading">
+        <div>
+          <h1>My Profile</h1>
+          <p class="subtitle">Manage your personal details and healthcare preferences.</p>
+        </div>
+      </div>
+
+      <div class="layout">
+        <aside class="surface profile-card">
+          <div class="profile-summary">
+            <span class="avatar"></span>
+            <div>
+              <div class="profile-name" id="summary-name">Elaine Chen</div>
+              <div class="profile-meta">Patient ID: GP-10482</div>
+              <span class="status" id="summary-enrolment">Enrolled patient</span>
+            </div>
+          </div>
+          <div class="side-nav" aria-label="Account sections">
+            <div class="active">My Profile</div>
+            <div>My Appointment</div>
+            <div>Prescriptions</div>
+            <div>Message</div>
+          </div>
+        </aside>
+
+        <div class="content">
+          <section class="surface section editable-section" id="personal-section" aria-labelledby="personal-title">
+            <div class="section-title">
+              <div><h2 id="personal-title">Personal information</h2><p class="section-description">Details used to identify and contact you.</p></div>
+              <button class="edit-button primary" id="edit-profile" type="button"> Edit Personal Information</button>
+              <div class="edit-actions">
+                <button class="ghost" id="cancel-edit" type="button">Discard Changes</button>
+                <button class="primary" id="save-profile" type="button">Save Changes</button>
+              </div>
+            </div>
+            <div class="info-grid">
+              <div class="field" data-key="name"><div class="field-label">Full name</div><div class="field-value">Elaine Chen</div><input aria-label="Full name" value="Elaine Chen"></div>
+              <div class="field"><div class="field-label">Date of birth</div><div class="field-value">14 March 2005</div><input aria-label="Date of birth" type="date" value="2005-03-14"></div>
+              <div class="field" data-key="email"><div class="field-label">Email</div><div class="field-value">elaine.chen@example.nz</div><input aria-label="Email" type="email" value="elaine.chen@example.nz"></div>
+              <div class="field"><div class="field-label">Phone</div><div class="field-value">021 456 7821</div><input aria-label="Phone" value="021 456 7821"></div>
+              <div class="field"><div class="field-label">Address</div><div class="field-value">Riccarton, Christchurch</div><input aria-label="Address" value="Riccarton, Christchurch"></div>
+              <div class="field"><div class="field-label">Emergency contact name</div><div class="field-value">Lina Chen</div><input aria-label="Emergency contact name" value="Lina Chen"></div>
+              <div class="field"><div class="field-label">Emergency contact phone</div><div class="field-value">021 774 120</div><input aria-label="Emergency contact phone" value="021 774 120"></div>
+            </div>
+            <div class="feedback" id="personal-feedback" role="status" aria-live="polite"></div>
+          </section>
+
+          <section class="surface section editable-section" id="health-section" aria-labelledby="health-title">
+            <div class="section-title">
+              <div><h2 id="health-title">Healthcare preferences</h2><p class="section-description">Information used to support appointments and follow-up care.</p></div>
+              <button class="edit-button primary" id="edit-health" type="button"> Edit Preferences</button>
+              <div class="edit-actions">
+                <button class="ghost" id="cancel-health" type="button">Discard Changes</button>
+                <button class="primary" id="save-health" type="button">Save Changes</button>
+              </div>
+            </div>
+            <div class="info-grid">
+              <div class="field" data-key="enrolment"><div class="field-label">Enrolment status</div><div class="field-value">Enrolled patient</div><select aria-label="Enrolment status"><option selected>Enrolled patient</option><option>Casual patient</option></select></div>
+              <div class="field"><div class="field-label">Preferred pharmacy</div><div class="field-value">Riccarton Community Pharmacy</div><input aria-label="Preferred pharmacy" value="Riccarton Community Pharmacy"></div>
+              <div class="field"><div class="field-label">Preferred consultation</div><div class="field-value">Video consultation</div><select aria-label="Preferred consultation"><option selected>Video consultation</option><option>Phone consultation</option></select></div>
+              <div class="field"><div class="field-label">Communication language</div><div class="field-value">English</div><select aria-label="Communication language"><option selected>English</option><option>Mandarin</option></select></div>
+            </div>
+            <div class="feedback" id="health-feedback" role="status" aria-live="polite"></div>
+          </section>
+
+          <section class="surface section" aria-labelledby="privacy-title">
+            <div class="section-title"><div><h2 id="privacy-title">Privacy and communication</h2><p class="section-description">Control routine account notifications.</p></div><button id="change-password" type="button">Change Password</button></div>
+            <div class="preferences">
+              <div class="preference-row">
+                <div><div class="preference-title">Appointment reminders</div><div class="preference-meta">Receive reminders before upcoming consultations.</div></div>
+                <label class="switch"><input id="appointment-reminders" type="checkbox" checked aria-label="Appointment reminders"><span></span></label>
+              </div>
+              <div class="preference-row">
+                <div><div class="preference-title">Email notifications</div><div class="preference-meta">Receive booking and account updates by email.</div></div>
+                <label class="switch"><input id="email-notifications" type="checkbox" checked aria-label="Email notifications"><span></span></label>
+              </div>
+            </div>
+            <div class="feedback" id="privacy-feedback" role="status" aria-live="polite"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </section>
+
+  <script>
+    (() => {
+      const root = document.getElementById('my-profile-v1');
+
+      function setupEditor(sectionId, editId, saveId, cancelId, feedbackId) {
+        const section = root.querySelector(sectionId);
+        const edit = root.querySelector(editId);
+        const save = root.querySelector(saveId);
+        const cancel = root.querySelector(cancelId);
+        const feedback = root.querySelector(feedbackId);
+        let snapshot = [];
+
+        edit.addEventListener('click', () => {
+          snapshot = [...section.querySelectorAll('input, select')].map(el => el.value);
+          section.classList.add('editing');
+          feedback.textContent = 'Edit the fields, then save or cancel.';
+          const first = section.querySelector('input, select');
+          if (first) first.focus();
+        });
+        cancel.addEventListener('click', () => {
+          [...section.querySelectorAll('input, select')].forEach((el, index) => el.value = snapshot[index]);
+          section.classList.remove('editing');
+          feedback.textContent = 'Changes discarded.';
+          feedback.classList.remove('error');
+        });
+        save.addEventListener('click', () => {
+          const fields = [...section.querySelectorAll('.field')];
+          const controls = fields.map(field => field.querySelector('input, select'));
+          const empty = controls.some(control => !control.value.trim());
+          const email = section.querySelector('input[type="email"]');
+          if (empty || (email && !email.validity.valid)) {
+            feedback.textContent = empty ? 'Please complete all fields.' : 'Please enter a valid email address.';
+            feedback.classList.add('error');
+            return;
+          }
+          fields.forEach((field, index) => field.querySelector('.field-value').textContent = controls[index].value);
+          const nameField = section.querySelector('[data-key="name"] .field-value');
+          if (nameField) root.querySelector('#summary-name').textContent = nameField.textContent;
+          const enrolmentField = section.querySelector('[data-key="enrolment"] .field-value');
+          if (enrolmentField) root.querySelector('#summary-enrolment').textContent = enrolmentField.textContent;
+          section.classList.remove('editing');
+          feedback.classList.remove('error');
+          feedback.textContent = 'Information updated successfully.';
+        });
+      }
+
+      setupEditor('#personal-section', '#edit-profile', '#save-profile', '#cancel-edit', '#personal-feedback');
+      setupEditor('#health-section', '#edit-health', '#save-health', '#cancel-health', '#health-feedback');
+
+      const privacyFeedback = root.querySelector('#privacy-feedback');
+      ['#appointment-reminders', '#email-notifications'].forEach(selector => {
+        root.querySelector(selector).addEventListener('change', event => {
+          const label = selector === '#appointment-reminders' ? 'Appointment reminders' : 'Email notifications';
+          privacyFeedback.textContent = `${label} ${event.target.checked ? 'enabled' : 'disabled'}.`;
+        });
+      });
+      root.querySelector('#change-password').addEventListener('click', () => {
+        privacyFeedback.textContent = 'A secure change-password flow would open here.';
+      });
+    })();
+  </script>
+</div>
+
+</body>
+</html>
